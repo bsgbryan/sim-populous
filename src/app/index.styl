@@ -26,11 +26,21 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   right 0
   overflow auto
 
+.line
+.tile
+  height 50px
+
+.menu
+  .tile
+    border 1px solid white
+
+.game-board
+  .tile
+    border 1px dashed #999
+
 .tile
   display inline-block
   width 50px
-  height 50px
-  border 1px solid white
   &:hover
     cursor pointer
   &.residential
@@ -51,6 +61,8 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       background-color #55f
     &.high
       background-color #33f
+    &.bank
+      background-color #11f
   &.industrial
     &.empty
       background-color #ff9
