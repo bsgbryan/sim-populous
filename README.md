@@ -31,7 +31,7 @@ I'm not exactly sure if these properties make sense, but it's a start.
 
 The basic idea is that each tile's `state` will be reevaluated each turn based
 on the value of the tile's properties (and probably a few pseudo-random external
-influences as well). Each tile's `state` will resolve to a `value` the `value`
+influences as well). Each tile's `state` will resolve to a `value`. The `value`
 for all tiles will be calculated periodically to determine how the player is
 doing.
 
