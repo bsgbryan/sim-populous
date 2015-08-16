@@ -1,5 +1,14 @@
 angular.module "simgame"
   .controller "MainController", ($scope) ->
+
+    $scope.select = (type, level) ->
+      $scope.type  = type
+      $scope.level = level
+
+    $scope.toggle = (x, y) ->
+      $scope.grid[x][y].type  = $scope.type
+      $scope.grid[x][y].level = $scope.level
+
     $scope.grid = [ ]
 
     for c in [0..50]

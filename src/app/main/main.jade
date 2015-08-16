@@ -3,16 +3,34 @@
     .menu.col-md-3
       h1.col-xs-12 SimPopulous
       h3.col-xs-12 Residential
-      .residential.tile.col-xs-3(ng-repeat="r in residential" class="{{ r }}")
+      .residential.tile.col-xs-3(
+        ng-repeat="r in residential"
+        class="{{ r }}"
+        ng-click="select('residential', r)")
       h3.col-xs-12 Commercial
-      .commercial.tile.col-xs-3(ng-repeat="c in commercial" class="{{ c }}")
+      .commercial.tile.col-xs-3(
+        ng-repeat="c in commercial"
+        class="{{ c }}"
+        ng-click="select('commercial', c)")
       h3.col-xs-12 Industrial
-      .industrial.tile.col-xs-3(ng-repeat="i in industrial" class="{{ i }}")
+      .industrial.tile.col-xs-3(
+        ng-repeat="i in industrial"
+        class="{{ i }}"
+        ng-click="select('industrial', i)")
       h3.col-xs-12 Education
-      .education.tile.col-xs-3(ng-repeat="e in education" class="{{ e }}")
+      .education.tile.col-xs-3(
+        ng-repeat="e in education"
+        class="{{ e }}"
+        ng-click="select('education', e)")
       h3.col-xs-12 Public
-      .public.tile.col-xs-3(ng-repeat="p in public" class="{{ p }}")
+      .public.tile.col-xs-3(
+        ng-repeat="p in public"
+        class="{{ p }}"
+        ng-click="select('public', p)")
     .game-board.col-md-9
       .grid
         .line(ng-repeat="col in grid")
-          .tile(ng-repeat="r in col")
+          .tile(
+            ng-repeat="r in col"
+            ng-click="toggle($parent.$index, $index)"
+            class="{{ r.type }} {{ r.level }}")
