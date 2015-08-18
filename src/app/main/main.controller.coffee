@@ -53,9 +53,14 @@ PROPERTIES =
 
 angular.module "simgame"
   .controller "MainController", ($scope, $interval) ->
+    $scope.employed = 0
+    $scope.citizens = 0
+
+    $scope.random_reverse = (array) ->
+      if Math.random() > 0.5 then array.reverse() else array
+
 
     $scope.processors =
-      # commercial:  (level, tile) ->
       residential: (tile, effected) ->
         if effected.type == 'commercial'
           unemployed = tile.people - tile.employed
@@ -68,14 +73,16 @@ angular.module "simgame"
             tile.employed      += hired
             effected.available -= hired
 
+            $scope.employed += hired
+
     $interval ->
       for row, i in $scope.grid
         for cell, j in row
           width  = [i - 3..i + 3]
           height = [j - 3..j + 3]
 
-          for w in width
-            for h in height
+          for w in $scope.random_reverse width
+            for h in $scope.random_reverse height
               if w >= 0 and h >= 0 and $scope.processors[cell.type]? and cell.x != w and cell.y != h and $scope.grid[w]?[h]?.type?
                 $scope.processors[cell.type] cell, $scope.grid[w][h]
     , 5000
@@ -89,8 +96,10 @@ angular.module "simgame"
       $scope.grid[x][y].level = $scope.level
 
       for p, d of PROPERTIES[$scope.type][$scope.level]
-        # console.log $scope.type, $scope.level, p, d
         $scope.grid[x][y][p] = d
+
+      if $scope.grid[x][y].people?
+        $scope.citizens += $scope.grid[x][y].people
 
       $scope.grid[x][y].x = x
       $scope.grid[x][y].y = y
@@ -99,7 +108,6 @@ angular.module "simgame"
         effect = INFLUENCE[$scope.type][$scope.level]
 
         for k, v of effect
-          # console.log $scope.type, $scope.level, k, v
           width  = [x - v..x + v]
           height = [y - v..y + v]
 

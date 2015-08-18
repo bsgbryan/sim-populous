@@ -2,6 +2,12 @@
   .row
     .menu.col-md-3
       h1.col-xs-12 SimPopulous
+      .col-xs-12
+        h5.col-xs-6 Citizens
+        em.col-xs-6 {{ citizens }}
+      .col-xs-12
+        h5.col-xs-6 Employed
+        em.col-xs-6 {{ employed }}
       h3.col-xs-12 Residential
       .residential.tile.col-xs-3(
         ng-repeat="r in residential"

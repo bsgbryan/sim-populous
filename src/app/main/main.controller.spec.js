@@ -5,6 +5,60 @@
 
     beforeEach(module('simgame'));
 
+    describe('globals', function () {
+      describe('employed', function () {
+        it('starts every pass of the game loop at zero', inject(function($controller, $rootScope) {
+          var scope = $rootScope.$new();
+
+          $controller('MainController', { $scope: scope });
+
+          expect(scope.employed).toBe(0);
+        }));
+
+        it('represents the total number of employed people on the game board', inject(function($controller, $rootScope) {
+          var scope = $rootScope.$new();
+
+          scope.type  = 'commercial'
+          scope.level = 'medium'
+
+          $controller('MainController', { $scope: scope });
+
+          scope.toggle(1, 1);
+          scope.toggle(2, 1);
+
+          scope.type  = 'residential'
+          scope.level = 'high'
+
+          scope.toggle(0, 0);
+          scope.toggle(1, 0);
+          scope.toggle(0, 1);
+
+          var effected = scope.grid[1][1];
+          var two_fect = scope.grid[2][1];
+
+          scope.processors.residential(scope.grid[0][0], effected);
+          scope.processors.residential(scope.grid[0][1], effected);
+          scope.processors.residential(scope.grid[1][0], effected);
+
+          scope.processors.residential(scope.grid[0][0], two_fect);
+          scope.processors.residential(scope.grid[0][1], two_fect);
+          scope.processors.residential(scope.grid[1][0], two_fect);
+
+          expect(scope.employed).toBe(9);
+
+          expect(scope.grid[0][0].employed).toBe(3);
+          expect(scope.grid[1][0].employed).toBe(3);
+          expect(scope.grid[0][1].employed).toBe(3);
+
+          expect(scope.grid[1][1].jobs).toBe(12);
+          expect(scope.grid[1][1].available).toBe(3);
+
+          expect(scope.grid[2][1].jobs).toBe(12);
+          expect(scope.grid[2][1].available).toBe(12);
+        }));
+      });
+    });
+
     describe('toggle', function () {
       describe("when it's type/level combination has an effect value of 1", function () {
         it('creates a decay grid one element wide', inject(function($controller, $rootScope) {
