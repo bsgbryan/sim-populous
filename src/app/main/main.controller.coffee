@@ -54,10 +54,9 @@ PROPERTIES =
 angular.module "simgame"
   .controller "MainController", ($scope, $interval) ->
 
-    PROCESSORS =
+    $scope.processors =
       # commercial:  (level, tile) ->
       residential: (tile, effected) ->
-        console.log 'type', effected.type
         if effected.type == 'commercial'
           unemployed = tile.people - tile.employed
           unemployed = if tile.decay > unemployed then unemployed else tile.decay
@@ -69,9 +68,6 @@ angular.module "simgame"
             tile.employed      += hired
             effected.available -= hired
 
-          console.log 'tile', tile
-          console.log 'effected', effected
-
     $interval ->
       for row, i in $scope.grid
         for cell, j in row
@@ -80,9 +76,8 @@ angular.module "simgame"
 
           for w in width
             for h in height
-              if w >= 0 and h >= 0 and PROCESSORS[cell.type]? and cell.x != w and cell.y != h and $scope.grid[w]?[h]?.type?
-                console.log cell.x, w
-                PROCESSORS[cell.type] cell, $scope.grid[w][h]
+              if w >= 0 and h >= 0 and $scope.processors[cell.type]? and cell.x != w and cell.y != h and $scope.grid[w]?[h]?.type?
+                $scope.processors[cell.type] cell, $scope.grid[w][h]
     , 5000
 
     $scope.select = (type, level) ->
@@ -127,10 +122,11 @@ angular.module "simgame"
               else if a == b
                 val = if a == 1 == b then v else a
 
-              if $scope.grid[w][h][k]?
-                $scope.grid[w][h][k] += val
-              else
-                $scope.grid[w][h][k] = val
+              if $scope.grid[w]?[h]?
+                if $scope.grid[w][h][k]?
+                  $scope.grid[w][h][k] += val
+                else
+                  $scope.grid[w][h][k] = val
 
     $scope.grid = [ ]
 
