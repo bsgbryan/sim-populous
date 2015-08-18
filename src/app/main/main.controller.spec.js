@@ -190,7 +190,7 @@
     describe('processors', function () {
       describe('a residential processor', function () {
         describe('assigns jobs to people in a residential tile based on proximity to a commercial tile', function () {
-          it('uses the decay property to determine how many of the people in the residential tile may decay at the commercial tile', inject(function($controller, $rootScope) {
+          it('uses the decay property to determine how many of the people in the residential tile may work at the commercial tile', inject(function($controller, $rootScope) {
             var scope = $rootScope.$new();
 
             scope.type  = 'commercial'
