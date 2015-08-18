@@ -142,6 +142,47 @@
           expect(scope.grid[0][6].work).toBe(1);
         }));
       });
+
+      describe("when a tile is placed whose effects overlap another, already placed tile", function () {
+        it('adds the new value to the existing value', inject(function($controller, $rootScope) {
+          var scope = $rootScope.$new();
+
+          scope.type  = 'commercial'
+          scope.level = 'low'
+
+          var vm = $controller('MainController', { $scope: scope });
+
+          scope.toggle(1, 1);
+          scope.toggle(1, 2);
+
+          // MAP OF EXPECTED RESULTS
+          // -------------
+          // | 1 | 1 | 1 | <- The original tile's effect
+          // -------------
+          // | 2 | 2 | 2 | <- Composite of original and new tiles
+          // -------------
+          // | 2 |*2*| 2 | <- Composite of original and new tiles (where the new tile was placed)
+          // -------------
+          // | 1 | 1 | 1 | <- Only new tile's effect
+          // -------------
+
+          expect(scope.grid[0][0].work).toBe(1);
+          expect(scope.grid[1][0].work).toBe(1);
+          expect(scope.grid[2][0].work).toBe(1);
+
+          expect(scope.grid[0][1].work).toBe(2);
+          expect(scope.grid[1][1].work).toBe(2);
+          expect(scope.grid[2][1].work).toBe(2);
+
+          expect(scope.grid[0][2].work).toBe(2);
+          expect(scope.grid[1][2].work).toBe(2); // This is the tile itself
+          expect(scope.grid[2][2].work).toBe(2);
+
+          expect(scope.grid[0][3].work).toBe(1);
+          expect(scope.grid[1][3].work).toBe(1);
+          expect(scope.grid[2][3].work).toBe(1);
+        }));
+      });
     });
   });
 })();
