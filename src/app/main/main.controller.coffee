@@ -1,22 +1,13 @@
+FLOORS =
+  residential: 4
+  commercial:  7
+
+UNITS =
+  residential: 2
+  commercial:  4
+
 angular.module "simgame"
   .controller "MainController", ($scope, $interval) ->
-    # PROPERTIES = { }
-    $scope.unit_options = [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }]
-    $scope.residential_creator =
-      bedrooms: 1
-      baths:    1
-      floors:   1
-      units:    1
-      sq_feet:  500
-    $scope.commercial_creator  =
-      parking_spaces: 5
-      businesses:     1
-      anchors:        0
-
-    $scope.industrial_creator  = { }
-    $scope.education_creator   = { }
-    $scope.public_creator      = { }
-
     $scope.creating =
       residential: false
       commercial:  false
@@ -29,12 +20,12 @@ angular.module "simgame"
     $scope.money    = 0
     $scope.months   = 0
 
-    $scope.floors = [ [ 1, 1 ] ]
+    $scope.floors = [ ]
 
     add_bedbroom = ->
       last = $scope.floors[0]
 
-      if last.length == 1
+      if last.length < UNITS[$scope.mode]
         last.push 1
       else
         $scope.floors.unshift [ 1 ]
@@ -48,27 +39,28 @@ angular.module "simgame"
         last.shift()
 
     $scope.display_plus = (floor, bed) ->
-      $scope.floors.length < 4 and floor == 0 and ++bed == $scope.floors[0].length
+      $scope.floors.length < FLOORS[$scope.mode] and floor == 0 and ++bed == $scope.floors[0].length
 
     $scope.display_minus = (floor, bed) ->
-      $scope.floors.length == 4                                  or
-      (floor == 0 and bed == 0 and $scope.floors[0].length == 2) or
-      (floor > 0 and ++bed == $scope.floors[floor].length)       if $scope.floors[floor]?
+      $scope.floors.length == FLOORS[$scope.mode]          or
+      (floor == 0 and bed == $scope.floors[0].length - 2)  or
+      (floor > 0 and ++bed == $scope.floors[floor].length) if $scope.floors[floor]?
 
     $scope.display_mutator = (floor, bed) ->
       if floor == 0
         true
       else
-        if $scope.floors.length < 4
+        if $scope.floors.length < FLOORS[$scope.mode]
           ++bed == $scope.floors[floor].length and $scope.floors[--floor].length == 1
         else
-          floor == 4
+          floor == FLOORS[$scope.mode]
+
     $scope.toggle_bedroom = (row, col) ->
       last   = $scope.floors[$scope.floors.length - 1]
       length = $scope.floors[row].length
-      console.log 'oh hai'
+
       if row == 0
-        if col == length - 1 and $scope.floors.length < 4
+        if col == length - 1 and $scope.floors.length < FLOORS[$scope.mode]
           add_bedbroom()
         else
           remove_bedroom()
@@ -87,30 +79,26 @@ angular.module "simgame"
         else
           $scope.creating[k] = false
 
-    $scope.createCommercialTile = ->
-      PROPERTIES = $scope.commercial_creator
+      if type == 'residential'
+        $scope.floors = [ [ 1, 1 ] ]
+      else if type == 'commercial'
+        $scope.floors = [ [ 1, 1, 1, 1 ] ]
 
-      PROPERTIES.jobs  = PROPERTIES.businesses * 5
-      PROPERTIES.jobs += PROPERTIES.anchors    * 30
+    $scope.create_commercial_tile = ->
+      PROPERTIES = { }
 
+      jobs = 0
+
+      $scope.floors.forEach (f) -> jobs += f.length
+
+      PROPERTIES.jobs      = jobs
       PROPERTIES.available = PROPERTIES.jobs
-
-      PROPERTIES.decay  = Math.ceil PROPERTIES.businesses / 10
-      PROPERTIES.decay += Math.ceil PROPERTIES.anchors    / 2
-      PROPERTIES.type   = 'commercial'
+      PROPERTIES.decay     = Math.ceil PROPERTIES.jobs / 4
+      PROPERTIES.type      = 'commercial'
 
       console.log 'commercial', PROPERTIES
 
-    $scope.$watchCollection 'residential_creator', (new_val) ->
-      cost = 0
-
-      cost += new_val.units    * 3
-      cost += new_val.bedrooms * 2
-      cost += new_val.floors   * 0.5
-      cost += new_val.baths
-      cost += new_val.sq_feet  * 0.75
-
-      $scope.cost = cost
+      PROPERTIES
 
     $scope.create_residential_tile = ->
       PROPERTIES = { }

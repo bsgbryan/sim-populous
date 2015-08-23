@@ -23,17 +23,12 @@
         .tile.public(ng-click="toggleCreator('public')")
           i.fa.fa-institution.fa-2x
       .creators.col-xs-12
-        form.residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
+        .residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
           h3 Residential
-          .col-xs-10.col-xs-offset-1.form-group.btn-group(role="group" aria-label="Residential options")
-            label.btn.btn-default(ng-model="residential_creator.mode" btn-radio="'single'" uncheckable)
-              i.fa.fa-home.fa-2x
-            label.btn.btn-default(ng-model="residential_creator.mode" btn-radio="'apartment'" uncheckable)
-              i.fa.fa-building.fa-2x
           .unit-details.col-xs-12
-            .col-xs-8.col-xs-offset-2(ng-if="residential_creator.mode == 'single'")
+            .col-xs-8.col-xs-offset-2
               .single-house-top.fa.fa-home.fa-5x
-              .beds.fa(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+              .beds(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
                 a.bed.btn.btn-default(ng-repeat="bed in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
                   i.fa.fa-bed
                   i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
@@ -42,26 +37,13 @@
               label.control-label.col-xs-6 Cost
               .col-xs-6
                 p.form-control-static ${{ cost | number:2 }}
-            //- button.btn.btn-success.col-xs-4.col-xs-offset-4(type="submit") Create
-        form.form-horizontal.commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
+        .form-horizontal.commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
           h3 Commercial
-          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Commercial options")
-            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'shop'" uncheckable) Small shop
-            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'office'" uncheckable) Office building
-            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'mall'" uncheckable) Mall
-          div(ng-if="commercial_creator.mode == 'office' || commercial_creator.mode == 'mall'")
-            label.col-xs-6(for="businesses") Businesses
-            .col-xs-6
-              input#businesses.form-control(type="number" ng-model="commercial_creator.businesses")
-          div(ng-if="commercial_creator.mode == 'mall'")
-            label.col-xs-6(for="anchors") Anchors
-            .col-xs-6
-              input#anchors.form-control(type="number" ng-model="commercial_creator.anchors")
-          div
-            label.col-xs-6(for="parking-spaces") Parking spaces
-            .col-xs-6
-              input#parking-spaces.form-control(type="number" ng-model="commercial_creator.parking_spaces")
-          button.btn.btn-success(type="submit") Create
+          .office-complex-top.fa.fa-building.fa-5x
+          .floor(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+            a.office.btn.btn-default(ng-repeat="desk in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+              i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+          .office-complex-bottom.fa.fa-building.fa-5x
         form.form-horizontal.industrial.col-xs-12(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
           h3 Industrial
           .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Industrial options")
