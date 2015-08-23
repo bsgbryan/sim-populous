@@ -30,70 +30,102 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 .tile
   height 50px
 
+.creators
+  form
+    .col-xs-10
+      margin-left 8.333333333333332%
+    label.col-xs-6
+      margin 7px 0 5px
+      vertical-align middle
+      text-align right
+    input.form-control
+      border none
+      box-shadow none
+
 .menu
+  .stats
+    .fa
+      margin-right 10px
+  .tiles
+    margin-top 20px
   .tile
     border 1px solid white
+    margin-bottom 3px
+    .background
+      color rgba(black, 0.5)
+    .foreground
+      color white
+
+.form-control
+  padding 6px
+
+.single-house-top
+.single-house-bottom
+  padding-left 0
+  padding-right 0
+  font-size 15em
+  overflow hidden
+  width 201px
+  height 120px
+  margin-bottom -5px
+.single-house-bottom:before
+  margin-top -130px
+  display block
+.beds
+  margin-left 30px
+  width 135px
+  box-sizing border-box
+  .bed.btn
+    border-left 5px solid #333
+    border-radius 0
+    border-right 5px solid #333
+    border-top 2px solid #333
+    border-bottom 5px solid #333
+    height 45px
+    padding 0
+    text-align left
+    line-height 2.9em
+    &.standard
+      width 67.5px
+    &.master
+      width 135px
+    .fa.fa-bed
+      vertical-align bottom
+      margin-bottom -2px
+      margin-left 1px
+      font-size 1.7em
+    .fa.fa-minus
+    .fa.fa-plus
+      margin-left 9px
+      font-size 1.5em
+      line-height 1em
+      vertical-align top
+      margin-top 3px
 
 .game-board
   .tile
     border 1px dashed #999
 
-.tile
-  display inline-block
-  width 50px
-  &:hover
-    cursor pointer
-  &.residential
-    &.empty
-      background-color #9f9
-    &.low
-      background-color #7f7
-    &.medium
-      background-color #5f5
-    &.high
-      background-color #3f3
-  &.commercial
-    &.empty
-      background-color #99f
-    &.low
-      background-color #77f
-    &.medium
-      background-color #55f
-    &.high
-      background-color #33f
-    &.bank
-      background-color #11f
-  &.industrial
-    &.empty
-      background-color #ff9
-    &.low
-      background-color #ff7
-    &.medium
-      background-color #ff5
-    &.high
-      background-color #ff3
-  &.education
-    &.elementary
-      background-color #f9f
-    &.middle
-      background-color #f7f
-    &.high
-      background-color #f5f
-    &.college
+.menu
+.grid
+  .tile
+    display inline-block
+    width 50px
+    padding-top 9px
+    text-align center
+    color rgba(white, 0.9)
+    &:hover
+      cursor pointer
+    &.residential
+      background-color #3d3
+    &.commercial
+      background-color #66f
+    &.industrial
+      background-color #dd3
+    &.education
       background-color #f3f
-    &.university
-      background-color #f1f
-    &.research
-      background-color #d0d
-  &.public
-    &.police
-      background-color #9ff
-    &.fire
-      background-color #7ff
-    &.hospital
-      background-color #5ff
-    &.park
-      background-color #3ff
+    &.public
+      background-color #3dd
 
 .grid
   width 2552px

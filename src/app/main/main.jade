@@ -2,37 +2,90 @@
   .row
     .menu.col-md-3
       h1.col-xs-12 SimPopulous
-      .col-xs-12
-        h5.col-xs-6 Citizens
-        em.col-xs-6 {{ citizens }}
-      .col-xs-12
-        h5.col-xs-6 Employed
-        em.col-xs-6 {{ employed }}
-      h3.col-xs-12 Residential
-      .residential.tile.col-xs-3(
-        ng-repeat="r in residential"
-        class="{{ r }}"
-        ng-click="select('residential', r)")
-      h3.col-xs-12 Commercial
-      .commercial.tile.col-xs-3(
-        ng-repeat="c in commercial"
-        class="{{ c }}"
-        ng-click="select('commercial', c)")
-      h3.col-xs-12 Industrial
-      .industrial.tile.col-xs-3(
-        ng-repeat="i in industrial"
-        class="{{ i }}"
-        ng-click="select('industrial', i)")
-      h3.col-xs-12 Education
-      .education.tile.col-xs-3(
-        ng-repeat="e in education"
-        class="{{ e }}"
-        ng-click="select('education', e)")
-      h3.col-xs-12 Public
-      .public.tile.col-xs-3(
-        ng-repeat="p in public"
-        class="{{ p }}"
-        ng-click="select('public', p)")
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-usd
+        em {{ money | number:2 }}
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-group
+        em {{ citizens | number }}
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-coffee
+        em {{ employed | number }}
+      .tiles.col-xs-12
+        .tile.residential(ng-click="toggleCreator('residential')")
+          i.fa.fa-home.fa-2x
+        .tile.commercial(ng-click="toggleCreator('commercial')")
+          i.fa.fa-building.fa-2x
+        .tile.industrial(ng-click="toggleCreator('industrial')")
+          i.fa.fa-industry.fa-2x
+        .tile.education(ng-click="toggleCreator('education')")
+          i.fa.fa-graduation-cap.fa-2x
+        .tile.public(ng-click="toggleCreator('public')")
+          i.fa.fa-institution.fa-2x
+      .creators.col-xs-12
+        form.residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
+          h3 Residential
+          .col-xs-10.col-xs-offset-1.form-group.btn-group(role="group" aria-label="Residential options")
+            label.btn.btn-default(ng-model="residential_creator.mode" btn-radio="'single'" uncheckable)
+              i.fa.fa-home.fa-2x
+            label.btn.btn-default(ng-model="residential_creator.mode" btn-radio="'apartment'" uncheckable)
+              i.fa.fa-building.fa-2x
+          .unit-details.col-xs-12
+            .col-xs-8.col-xs-offset-2(ng-if="residential_creator.mode == 'single'")
+              .single-house-top.fa.fa-home.fa-5x
+              .beds.fa(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+                a.bed.btn.btn-default(ng-repeat="bed in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+                  i.fa.fa-bed
+                  i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+              .single-house-bottom.fa.fa-home.fa-5x
+            .form-group.col-xs-12
+              label.control-label.col-xs-6 Cost
+              .col-xs-6
+                p.form-control-static ${{ cost | number:2 }}
+            //- button.btn.btn-success.col-xs-4.col-xs-offset-4(type="submit") Create
+        form.form-horizontal.commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
+          h3 Commercial
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Commercial options")
+            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'shop'" uncheckable) Small shop
+            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'office'" uncheckable) Office building
+            label.btn.btn-default(ng-model="commercial_creator.mode" btn-radio="'mall'" uncheckable) Mall
+          div(ng-if="commercial_creator.mode == 'office' || commercial_creator.mode == 'mall'")
+            label.col-xs-6(for="businesses") Businesses
+            .col-xs-6
+              input#businesses.form-control(type="number" ng-model="commercial_creator.businesses")
+          div(ng-if="commercial_creator.mode == 'mall'")
+            label.col-xs-6(for="anchors") Anchors
+            .col-xs-6
+              input#anchors.form-control(type="number" ng-model="commercial_creator.anchors")
+          div
+            label.col-xs-6(for="parking-spaces") Parking spaces
+            .col-xs-6
+              input#parking-spaces.form-control(type="number" ng-model="commercial_creator.parking_spaces")
+          button.btn.btn-success(type="submit") Create
+        form.form-horizontal.industrial.col-xs-12(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
+          h3 Industrial
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Industrial options")
+            label.btn.btn-default(ng-model="industrial_creator.mode" btn-radio="'bioengeneering'" uncheckable) Bioengeneering
+            label.btn.btn-default(ng-model="industrial_creator.mode" btn-radio="'manufacturing'" uncheckable) Manufacturing
+            label.btn.btn-default(ng-model="industrial_creator.mode" btn-radio="'excavation'" uncheckable) Excevation
+          button.btn.btn-success(type="submit") Create
+        form.form-horizontal.education(ng-submit="createEducationTile()" ng-if="creating.education")
+          h3 Education
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Education options")
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'elementary'" uncheckable) Elementary school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'middle'" uncheckable) Middle school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'high'" uncheckable) High school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'college'" uncheckable) College
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'university'" uncheckable) University
+          button.btn.btn-success(type="submit") Create
+        form.form-horizontal.education(ng-submit="createPublicTile()" ng-if="creating.public")
+          h3 Public
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Public options")
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'firehouse'" uncheckable) Firehouse
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'police-station'" uncheckable) Police station
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'hospital'" uncheckable) Hospital
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'park'" uncheckable) Park
+          button.btn.btn-success(type="submit") Create
     .game-board.col-md-9
       .grid
         .line(ng-repeat="col in grid")
