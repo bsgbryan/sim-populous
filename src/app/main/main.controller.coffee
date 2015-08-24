@@ -8,8 +8,15 @@ UNITS =
   commercial:  4
   industrial:  3
 
-angular.module "simgame"
-  .controller "MainController", ($scope, $interval) ->
+SALLARIES =
+  commercial: 1000
+  industrial: 500
+
+TAX_RATE            = 0.10
+INFRASTRUCTURE_COST = 0
+
+angular.module 'simgame'
+  .controller 'MainController', ($scope, $interval) ->
     $scope.creating =
       residential: false
       commercial:  false
@@ -17,7 +24,7 @@ angular.module "simgame"
       education:   false
       public:      false
 
-    $scope.employed = 0
+    $scope.employed = commercial: 0, industrial: 0
     $scope.citizens = 0
     $scope.money    = 0
     $scope.months   = 0
@@ -111,6 +118,8 @@ angular.module "simgame"
 
       $scope.floors.forEach (f) -> jobs += f.length
 
+      INFRASTRUCTURE_COST += jobs * 0.75
+
       PROPERTIES.jobs      = jobs
       PROPERTIES.available = PROPERTIES.jobs
       PROPERTIES.decay     = Math.ceil PROPERTIES.jobs / 4
@@ -127,6 +136,8 @@ angular.module "simgame"
       $scope.floors.forEach (f) -> beds += f.length
 
       beds += 1 if $scope.floors[0].length == 1
+
+      INFRASTRUCTURE_COST += beds * 1.5
 
       PROPERTIES.people   = beds
       PROPERTIES.employed = 0
@@ -147,11 +158,18 @@ angular.module "simgame"
             tile.employed      += hired
             effected.available -= hired
 
-            $scope.employed += hired
+            $scope.employed[effected.type] += hired
+
+            INFRASTRUCTURE_COST += if effected.type == 'commercial' then hired * 2 else hired * 3.5
 
     $interval ->
       if ++$scope.months == 12
-        $scope.money += $scope.employed * 100
+        earned  = $scope.employed.commercial * SALLARIES.commercial
+        earned += $scope.employed.industrial * SALLARIES.industrial
+
+        earned -= INFRASTRUCTURE_COST
+
+        $scope.money += earned * TAX_RATE
         $scope.months = 0
 
       for row, i in $scope.grid
