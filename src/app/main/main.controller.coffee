@@ -1,10 +1,12 @@
 FLOORS =
   residential: 4
   commercial:  7
+  industrial:  7
 
 UNITS =
   residential: 2
   commercial:  4
+  industrial:  3
 
 angular.module "simgame"
   .controller "MainController", ($scope, $interval) ->
@@ -83,6 +85,24 @@ angular.module "simgame"
         $scope.floors = [ [ 1, 1 ] ]
       else if type == 'commercial'
         $scope.floors = [ [ 1, 1, 1, 1 ] ]
+      else if type == 'industrial'
+        $scope.floors = [ [ 1, 1, 1 ] ]
+
+    $scope.create_industrial_tile = ->
+      PROPERTIES = { }
+
+      jobs = 0
+
+      $scope.floors.forEach (f) -> jobs += f.length
+
+      PROPERTIES.jobs      = jobs
+      PROPERTIES.available = PROPERTIES.jobs
+      PROPERTIES.decay     = Math.ceil PROPERTIES.jobs / 4
+      PROPERTIES.type      = 'industrial'
+
+      console.log 'industrial', PROPERTIES
+
+      PROPERTIES
 
     $scope.create_commercial_tile = ->
       PROPERTIES = { }
@@ -116,7 +136,7 @@ angular.module "simgame"
 
     $scope.processors =
       residential: (tile, effected) ->
-        if effected.type == 'commercial'
+        if effected.type == 'commercial' or effected.type == 'industrial'
           unemployed = tile.people - tile.employed
           unemployed = if tile.decay > unemployed then unemployed else tile.decay
 
