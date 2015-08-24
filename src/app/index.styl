@@ -1,0 +1,198 @@
+/**
+ *  If you want to override some bootstrap variables, you have to change values here.
+ *  The list of variables are listed here bower_components/bootstrap-stylus/bootstrap/variables.styl
+ */
+$navbar-inverse-link-color = #5AADBB
+$icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
+ *  stylus dependencies when defined in the bower.json of your dependencies
+ */
+// bower:styl
+// endbower
+
+.browsehappy
+  margin 0.2em 0
+  background #ccc
+  color #000
+  padding 0.2em 0
+
+.game-board
+  position absolute
+  top 0
+  bottom 0
+  left 25%
+  right 0
+  overflow auto
+
+.line
+.tile
+  height 50px
+
+.creators
+  form
+    .col-xs-10
+      margin-left 8.333333333333332%
+    label.col-xs-6
+      margin 7px 0 5px
+      vertical-align middle
+      text-align right
+    input.form-control
+      border none
+      box-shadow none
+
+.menu
+  .stats
+    .fa
+      margin-right 10px
+  .tiles
+    margin-top 20px
+  .tile
+    border 1px solid white
+    margin-bottom 3px
+    .background
+      color rgba(black, 0.5)
+    .foreground
+      color white
+
+.form-control
+  padding 6px
+
+.industrial .line
+  width 210px
+  border-left 10px solid #333
+  border-right 10px solid #333
+  background-color #333
+  padding-top 7px
+  .worker.btn.btn-default
+    width 63px
+    border none
+    border-radius 0
+    border-left 5px solid #333
+    border-right 5px solid #333
+    .fa.fa-wrench + .fa
+      margin-left 5px
+
+.floor
+  width 165px
+  border-left 10px solid #333
+  border-right 10px solid #333
+  background-color #333
+
+  .office
+    &.btn.btn-default
+      border 6.5px solid #333
+      border-radius 0
+      width 36.25px
+      height 40px
+      padding-left 0
+      padding-right 0
+
+    i.fa
+      vertical-align top
+      padding-top 1px
+
+.single-house-top
+.single-house-bottom
+  width 201px
+  height 120px
+.office-complex-top
+  height 30px
+.office-complex-bottom
+  height 80px
+.office-complex-top
+.office-complex-bottom
+  width 165px
+.manufacturing-plant-top
+  height 140px
+.manufacturing-plant-bottom
+  height 30px
+.single-house-top
+.single-house-bottom
+.office-complex-top
+.office-complex-bottom
+.manufacturing-plant-top
+.manufacturing-plant-bottom
+  padding-left 0
+  padding-right 0
+  font-size 15em
+  overflow hidden
+  margin-bottom -5px
+.single-house-bottom:before
+  margin-top -130px
+.office-complex-bottom:before
+  margin-top -140px
+.manufacturing-plant-bottom:before
+  margin-top -180px
+.single-house-bottom:before
+.office-complex-bottom:before
+.manufacturing-plant-bottom:before
+  display block
+.beds
+  margin-left 30px
+  width 135px
+  box-sizing border-box
+  .bed.btn
+    border-left 5px solid #333
+    border-radius 0
+    border-right 5px solid #333
+    border-top 2px solid #333
+    border-bottom 5px solid #333
+    height 45px
+    padding 0
+    text-align left
+    line-height 2.9em
+    &.standard
+      width 67.5px
+    &.master
+      width 135px
+    .fa.fa-bed
+      vertical-align bottom
+      margin-bottom -2px
+      margin-left 1px
+      font-size 1.7em
+    .fa.fa-minus
+    .fa.fa-plus
+      margin-left 9px
+      font-size 1.5em
+      line-height 1em
+      vertical-align top
+      margin-top 3px
+
+.game-board
+  .tile
+    border 1px dashed #999
+
+.menu
+.grid
+  .tile
+    display inline-block
+    width 50px
+    padding-top 9px
+    text-align center
+    color rgba(white, 0.9)
+    &:hover
+      cursor pointer
+    &.residential
+      background-color #3d3
+    &.commercial
+      background-color #66f
+    &.industrial
+      background-color #dd3
+    &.education
+      background-color #f3f
+    &.public
+      background-color #3dd
+
+.grid
+  width 2552px
+  .tile
+    background-color #eee
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+ *  all your stylus files automatically
+ */
+// injector
+// endinjector

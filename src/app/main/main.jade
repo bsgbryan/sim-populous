@@ -1,0 +1,78 @@
+.container-fluid
+  .row
+    .menu.col-md-3
+      h1.col-xs-12 SimPopulous
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-usd
+        em {{ money | number:2 }}
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-group
+        em {{ citizens | number }}
+      .stats.col-xs-12.col-mg-6.col-lg-4
+        i.fa.fa-coffee
+        em {{ employed | number }}
+      .tiles.col-xs-12
+        .tile.residential(ng-click="toggleCreator('residential')")
+          i.fa.fa-home.fa-2x
+        .tile.commercial(ng-click="toggleCreator('commercial')")
+          i.fa.fa-building.fa-2x
+        .tile.industrial(ng-click="toggleCreator('industrial')")
+          i.fa.fa-industry.fa-2x
+        .tile.education(ng-click="toggleCreator('education')")
+          i.fa.fa-graduation-cap.fa-2x
+        .tile.public(ng-click="toggleCreator('public')")
+          i.fa.fa-institution.fa-2x
+      .creators.col-xs-12
+        .residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
+          h3 Residential
+          .unit-details.col-xs-12
+            .col-xs-8.col-xs-offset-2
+              .single-house-top.fa.fa-home.fa-5x
+              .beds(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+                a.bed.btn.btn-default(ng-repeat="bed in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+                  i.fa.fa-bed
+                  i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+              .single-house-bottom.fa.fa-home.fa-5x
+            .form-group.col-xs-12
+              label.control-label.col-xs-6 Cost
+              .col-xs-6
+                p.form-control-static ${{ cost | number:2 }}
+        .commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
+          h3 Commercial
+          .office-complex-top.fa.fa-building.fa-5x
+          .floor(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+            a.office.btn.btn-default(ng-repeat="desk in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+              i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+          .office-complex-bottom.fa.fa-building.fa-5x
+        .industrial.col-xs-12(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
+          h3 Industrial
+          .manufacturing-plant-top.fa.fa-industry.fa-5x
+          .line(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+            a.worker.btn.btn-default(ng-repeat="desk in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+              i.fa.fa-wrench
+              i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+          .manufacturing-plant-bottom.fa.fa-industry.fa-5x
+        form.form-horizontal.education(ng-submit="createEducationTile()" ng-if="creating.education")
+          h3 Education
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Education options")
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'elementary'" uncheckable) Elementary school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'middle'" uncheckable) Middle school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'high'" uncheckable) High school
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'college'" uncheckable) College
+              label.btn.btn-default(ng-model="education_creator.mode" btn-radio="'university'" uncheckable) University
+          button.btn.btn-success(type="submit") Create
+        form.form-horizontal.education(ng-submit="createPublicTile()" ng-if="creating.public")
+          h3 Public
+          .col-xs-10.col-xs-offset-1.form-group.btn-group-vertical(role="group" aria-label="Public options")
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'firehouse'" uncheckable) Firehouse
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'police-station'" uncheckable) Police station
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'hospital'" uncheckable) Hospital
+            label.btn.btn-default(ng-model="public_creator.mode" btn-radio="'park'" uncheckable) Park
+          button.btn.btn-success(type="submit") Create
+    .game-board.col-md-9
+      .grid
+        .line(ng-repeat="col in grid")
+          .tile(
+            ng-repeat="r in col"
+            ng-click="toggle($parent.$index, $index)"
+            class="{{ r.type }} {{ r.level }}")
