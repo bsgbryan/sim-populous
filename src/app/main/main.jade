@@ -93,4 +93,6 @@
           .tile(
             ng-repeat="r in col"
             ng-click="toggle($parent.$index, $index)"
-            class="{{ r.type }} {{ r.level }}")
+            class="{{ r.type }}")
+            .floor(ng-repeat="floor in r.floors track by $index")
+              .unit(ng-repeat="unit in floor track by $index")

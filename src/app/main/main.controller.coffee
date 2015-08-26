@@ -40,6 +40,7 @@ angular.module 'simgame'
     $scope.commercial_cost  = 300
     $scope.industrial_cost  = 400
     $scope.education_cost   = 1000
+    $scope.public_cost      = 500
 
     $scope.floors = [ [ ] ]
 
@@ -184,10 +185,13 @@ angular.module 'simgame'
 
       if $scope.floors[row].length < UNITS[$scope.mode]
         if col == length - 1
+          $scope.cost += $scope.public_cost * (1 + (row * 0.5))
           $scope.floors[row].push 1
         else if col == length - 2
+          $scope.cost -= $scope.public_cost * (1 + (row * 0.5))
           $scope.floors[row].shift()
       else
+        $scope.cost -= $scope.public_cost * (1 + (row * 0.5))
         $scope.floors[row].shift()
 
     $scope.display_plus = (floor, bed) ->
@@ -443,8 +447,6 @@ angular.module 'simgame'
                   (w >= 0 and h >= 0)                        and
                   $scope.processors[type]?
                 if needs_processing
-                  console.log 'cell', cell
-                  console.log 'effected', $scope.grid[w][h]
                   $scope.processors[type] cell, $scope.grid[w][h]
           else if $scope.processors[type]?
             $scope.processors[type] cell
@@ -461,6 +463,13 @@ angular.module 'simgame'
 
       $scope.grid[x][y].x = x
       $scope.grid[x][y].y = y
+
+      levels = $scope.floors
+
+      for i in [levels.length...FLOORS[$scope.mode]]
+        levels.unshift [ ]
+
+      $scope.grid[x][y].floors = levels
 
       $scope.money -= $scope.cost
 
