@@ -26,9 +26,12 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   right 0
   overflow auto
 
-.line
-.tile
-  height 50px
+.game-board
+  .line
+  .tile
+    height 64px
+  .tile
+    width 64px
 
 .creators
   form
@@ -51,6 +54,8 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   .tile
     border 1px solid white
     margin-bottom 3px
+    width 50px
+    height 50px
     .background
       color rgba(black, 0.5)
     .foreground
@@ -92,6 +97,26 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
     i.fa
       vertical-align top
       padding-top 1px
+
+.education
+.public
+  .level h5
+    .fa-graduation-cap
+      margin-left 10px
+      margin-right 5px
+    .fa-user
+      margin-left 2px
+      margin-right 5px
+  .student
+  .service
+    display inline-block
+    width 55px
+    text-align center
+    border none
+    color #333
+    padding 6px 12px
+    .fa + .fa
+      margin-left 10px
 
 .single-house-top
 .single-house-bottom
@@ -168,7 +193,6 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 .grid
   .tile
     display inline-block
-    width 50px
     padding-top 9px
     text-align center
     color rgba(white, 0.9)
@@ -186,7 +210,7 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       background-color #3dd
 
 .grid
-  width 2552px
+  width 3264px
   .tile
     background-color #eee
 
