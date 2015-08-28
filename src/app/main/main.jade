@@ -29,24 +29,56 @@
             .col-xs-8.col-xs-offset-2
               .single-house-top.fa.fa-home.fa-5x
               .beds(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-                a.bed.btn.btn-default(ng-repeat="bed in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+                a.bed(
+                  ng-if="display_mutator(floor_index, $index) == false"
+                  ng-repeat="bed in floor track by $index"
+                  class="{{ bed }}")
                   i.fa.fa-bed
-                  i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+                a.bed.btn.btn-default(
+                  ng-if="display_mutator(floor_index, $index) == true"
+                  ng-repeat="bed in floor track by $index"
+                  ng-click="toggle_bedroom(floor_index, $index)"
+                  class="{{ bed }}")
+                  i.fa.fa-bed
+                  i.fa(
+                    ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+                    ng-if="display_mutator(floor_index, $index)")
               .single-house-bottom.fa.fa-home.fa-5x
         .commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
           h3 Commercial
           .office-complex-top.fa.fa-building.fa-5x
           .floor(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-            a.office.btn.btn-default(ng-repeat="desk in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
-              i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+            a.office(
+              ng-if="display_mutator(floor_index, $index) == false"
+              ng-repeat="desk in floor track by $index"
+              class="{{ desk }}")
+              i.fa
+            a.office.btn.btn-default(
+              ng-if="display_mutator(floor_index, $index) == true"
+              ng-repeat="desk in floor track by $index"
+              class="{{ desk }}"
+              ng-click="toggle_desk(floor_index, $index)")
+              i.fa(
+                ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+                ng-if="display_mutator(floor_index, $index)")
           .office-complex-bottom.fa.fa-building.fa-5x
-        .industrial.col-xs-12(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
+        .industrial(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
           h3 Industrial
           .manufacturing-plant-top.fa.fa-industry.fa-5x
           .line(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-            a.worker.btn.btn-default(ng-repeat="desk in floor track by $index" ng-class="{ standard: floor.length == 2, master: floor.length == 1 }" ng-click="toggle_bedroom(floor_index, $index)")
+            a.worker(
+              ng-if="display_mutator(floor_index, $index) == false"
+              ng-repeat="desk in floor track by $index")
               i.fa.fa-wrench
-              i.fa(ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }" ng-if="display_mutator(floor_index, $index)")
+            a.worker.btn.btn-default(
+              ng-if="display_mutator(floor_index, $index) == true"
+              ng-repeat="cog in floor track by $index"
+              class="{{ cog }}"
+              ng-click="toggle_cog(floor_index, $index)")
+              i.fa.fa-wrench
+              i.fa(
+                ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+                ng-if="display_mutator(floor_index, $index)")
           .manufacturing-plant-bottom.fa.fa-industry.fa-5x
         .education(ng-submit="createEducationTile()" ng-if="creating.education")
           h3 Education
@@ -95,4 +127,4 @@
             ng-click="toggle($parent.$index, $index)"
             class="{{ r.type }}")
             .floor(ng-repeat="floor in r.floors track by $index")
-              .unit(ng-repeat="unit in floor track by $index")
+              .unit(ng-repeat="unit in floor track by $index" class="{{ unit }}")

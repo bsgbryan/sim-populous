@@ -48,14 +48,79 @@ angular.module 'simgame'
       last = $scope.floors[0]
 
       if last.length < UNITS[$scope.mode]
-        last.push 1
+        last[0] = 'standard' if last.length > 0
+        last.push 'standard'
       else
         $scope.multiplier += 0.25
-        $scope.floors.unshift [ 1 ]
+        $scope.floors.unshift [ 'master' ]
 
       $scope.cost += $scope["#{$scope.mode}_cost"] * $scope.multiplier
 
     remove_bedroom = ->
+      last = $scope.floors[0]
+
+      $scope.cost -= $scope["#{$scope.mode}_cost"] * $scope.multiplier
+
+      if last.length == 1
+        $scope.multiplier -= 0.25
+        $scope.floors.shift()
+      else
+        last.shift()
+        last[0] = 'master'
+
+    add_desk = ->
+      last = $scope.floors[0]
+
+      if last.length < UNITS[$scope.mode]
+        if $scope.floors.length == 3 or $scope.floors.length == 6
+          if last.length < 2
+            last.push 'manager'
+          else
+            if $scope.floors.length == 6
+              $scope.floors.unshift [ 'executive' ]
+            else
+              $scope.floors.unshift [ 'employee' ]
+        else
+          last.push 'employee'
+      else
+        $scope.multiplier += 0.25
+        if $scope.floors.length == 6
+          $scope.floors.unshift [ 'executive' ]
+        else if $scope.floors.length == 2 or $scope.floors.length == 5
+          $scope.floors.unshift [ 'manager' ]
+        else
+          $scope.floors.unshift [ 'employee' ]
+
+
+      $scope.cost += $scope["#{$scope.mode}_cost"] * $scope.multiplier
+
+    remove_desk = ->
+      last = $scope.floors[0]
+
+      $scope.cost -= $scope["#{$scope.mode}_cost"] * $scope.multiplier
+
+      if last.length == 1
+        $scope.multiplier -= 0.25
+        $scope.floors.shift()
+      else
+        last.shift()
+
+    add_cog = ->
+      last = $scope.floors[0]
+
+      if last.length < UNITS[$scope.mode]
+        last.push 'cog'
+      else
+        $scope.multiplier += 0.25
+
+        if $scope.floors.length == 6
+          $scope.floors.unshift [ 'foreman' ]
+        else
+          $scope.floors.unshift [ 'cog' ]
+
+      $scope.cost += $scope["#{$scope.mode}_cost"] * $scope.multiplier
+
+    remove_cog = ->
       last = $scope.floors[0]
 
       $scope.cost -= $scope["#{$scope.mode}_cost"] * $scope.multiplier
@@ -204,10 +269,10 @@ angular.module 'simgame'
 
     $scope.display_mutator = (floor, bed) ->
       if floor == 0
-        true
+        bed == $scope.floors[floor].length - 1 or bed == $scope.floors[floor].length - 2
       else
         if $scope.floors.length < FLOORS[$scope.mode]
-          ++bed == $scope.floors[floor].length and $scope.floors[--floor].length == 1
+          bed == $scope.floors[floor].length - 1 and $scope.floors[--floor].length == 1
         else
           floor == FLOORS[$scope.mode]
 
@@ -222,6 +287,30 @@ angular.module 'simgame'
           remove_bedroom()
       else if col == length - 1
         remove_bedroom()
+
+    $scope.toggle_desk = (row, col) ->
+      last   = $scope.floors[$scope.floors.length - 1]
+      length = $scope.floors[row].length
+
+      if row == 0
+        if col == length - 1 and $scope.floors.length < FLOORS[$scope.mode]
+          add_desk()
+        else
+          remove_desk()
+      else if col == length - 1
+        remove_desk()
+
+    $scope.toggle_cog = (row, col) ->
+      last   = $scope.floors[$scope.floors.length - 1]
+      length = $scope.floors[row].length
+
+      if row == 0
+        if col == length - 1 and $scope.floors.length < FLOORS[$scope.mode]
+          add_cog()
+        else
+          remove_cog()
+      else if col == length - 1
+        remove_cog()
 
     $scope.random_reverse = (array) ->
       if Math.random() > 0.5 then array.reverse() else array
@@ -243,15 +332,15 @@ angular.module 'simgame'
         add_bedroom()
       else if type == 'commercial'
         $scope.cost = 7000
-        add_bedroom()
-        add_bedroom()
-        add_bedroom()
-        add_bedroom()
+        add_desk()
+        add_desk()
+        add_desk()
+        add_desk()
       else if type == 'industrial'
         $scope.cost = 9000
-        add_bedroom()
-        add_bedroom()
-        add_bedroom()
+        add_cog()
+        add_cog()
+        add_cog()
       else if type == 'education'
         $scope.cost = 10000
         add_bedroom()
