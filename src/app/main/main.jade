@@ -1,130 +1,132 @@
-.container-fluid
-  .row
-    .menu.col-md-3
-      h1.col-xs-12 SimPopulous
-      .stats.col-xs-12.col-mg-6.col-lg-4
-        i.fa.fa-usd
-        em {{ money | number:2 }}
-      .stats.col-xs-12.col-mg-6.col-lg-4
-        i.fa.fa-group
-        em {{ citizens | number }}
-      .stats.col-xs-12.col-mg-6.col-lg-4
-        i.fa.fa-coffee
-        em {{ total_employed | number }}
-      .tiles.col-xs-12
-        .tile.residential(ng-click="toggleCreator('residential')")
-          i.fa.fa-home.fa-2x
-        .tile.commercial(ng-click="toggleCreator('commercial')")
-          i.fa.fa-building.fa-2x
-        .tile.industrial(ng-click="toggleCreator('industrial')")
-          i.fa.fa-industry.fa-2x
-        .tile.education(ng-click="toggleCreator('education')")
-          i.fa.fa-graduation-cap.fa-2x
-        .tile.public(ng-click="toggleCreator('public')")
-          i.fa.fa-institution.fa-2x
-      .creators.col-xs-12
-        .residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
-          h3 Residential
-          .unit-details.col-xs-12
-            .col-xs-8.col-xs-offset-2
-              .single-house-top.fa.fa-home.fa-5x
-              .beds(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-                a.bed(
-                  ng-if="display_mutator(floor_index, $index) == false"
-                  ng-repeat="bed in floor track by $index"
-                  class="{{ bed }}")
-                  i.fa.fa-bed
-                a.bed.btn.btn-default(
-                  ng-if="display_mutator(floor_index, $index) == true"
-                  ng-repeat="bed in floor track by $index"
-                  ng-click="toggle_bedroom(floor_index, $index)"
-                  class="{{ bed }}")
-                  i.fa.fa-bed
-                  i.fa(
-                    ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
-                    ng-if="display_mutator(floor_index, $index)")
-              .single-house-bottom.fa.fa-home.fa-5x
-        .commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
-          h3 Commercial
-          .office-complex-top.fa.fa-building.fa-5x
-          .floor(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-            a.office(
-              ng-if="display_mutator(floor_index, $index) == false"
-              ng-repeat="desk in floor track by $index"
-              class="{{ desk }}")
-              i.fa
-            a.office.btn.btn-default(
-              ng-if="display_mutator(floor_index, $index) == true"
-              ng-repeat="desk in floor track by $index"
-              class="{{ desk }}"
-              ng-click="toggle_desk(floor_index, $index)")
-              i.fa(
-                ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
-                ng-if="display_mutator(floor_index, $index)")
-          .office-complex-bottom.fa.fa-building.fa-5x
-        .industrial(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
-          h3 Industrial
-          .manufacturing-plant-top.fa.fa-industry.fa-5x
-          .line(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
-            a.worker(
-              ng-if="display_mutator(floor_index, $index) == false"
-              ng-repeat="desk in floor track by $index")
-              i.fa.fa-wrench
-            a.worker.btn.btn-default(
-              ng-if="display_mutator(floor_index, $index) == true"
-              ng-repeat="cog in floor track by $index"
-              class="{{ cog }}"
-              ng-click="toggle_cog(floor_index, $index)")
-              i.fa.fa-wrench
-              i.fa(
-                ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
-                ng-if="display_mutator(floor_index, $index)")
-          .manufacturing-plant-bottom.fa.fa-industry.fa-5x
-        .education(ng-submit="createEducationTile()" ng-if="creating.education")
-          h3 Education
-          .level(
-            ng-repeat="floor in floors track by $index"
-            ng-init="floor_index = $index")
-            h5 {{ edu_level($index) }}
-              i.fa.fa-graduation-cap
-              | = 
-              i.fa.fa-user
-              | x {{ student_count($index) }}
-            a.student(
-              ng-if="display_edu_mutator(floor_index, $index) == false"
-              ng-repeat="desk in floor track by $index")
-              i.fa.fa-graduation-cap
-            a.student.btn.btn-default(
-              ng-if="display_edu_mutator(floor_index, $index) == true"
-              ng-repeat="desk in floor track by $index"
-              ng-click="toggle_edu_unit(floor_index, $index)")
-              i.fa.fa-graduation-cap
-              i.fa(ng-class="{ 'fa-plus': display_edu_plus(floor_index, $index), 'fa-minus': display_edu_minus(floor_index, $index) }")
-        .public(ng-submit="createPublicTile()" ng-if="creating.public")
-          h3 Public Servants
-          .level(
-            ng-repeat="floor in floors track by $index"
-            ng-init="floor_index = $index")
-            h5 {{ pub_level($index) }}
-            a.service(
-              ng-if="display_pub_mutator(floor_index, $index) == false"
-              ng-repeat="desk in floor track by $index")
-              i.fa(class="fa-{{ pub_icon(floor_index) }}")
-            a.service.btn.btn-default(
-              ng-if="display_pub_mutator(floor_index, $index) == true"
-              ng-repeat="desk in floor track by $index"
-              ng-click="toggle_pub_unit(floor_index, $index)")
-              i.fa(class="fa-{{ pub_icon(floor_index) }}")
-              i.fa(ng-class="{ 'fa-plus': display_pub_plus(floor_index, $index), 'fa-minus': display_pub_minus(floor_index, $index) }")
-        .col-xs-12
-          p.col-xs-6 Cost
-          p.col-xs-6 ${{ cost | number:2 }}
-    .game-board.col-md-9
-      .grid
-        .line(ng-repeat="col in grid")
-          .tile(
-            ng-repeat="r in col"
-            ng-click="toggle($parent.$index, $index)"
-            class="{{ r.type }}")
-            .floor(ng-repeat="floor in r.floors track by $index")
-              .unit(ng-repeat="unit in floor track by $index" class="{{ unit }}")
+.menu
+  .stats.money
+    i.fa.fa-usd
+    em {{ money | number }}
+  .stats.citizens
+    i.fa.fa-group
+    em {{ citizens | number }}
+  .stats.employed
+    i.fa.fa-coffee
+    em {{ total_employed | number }}
+  .tiles
+    .tile.residential(ng-click="toggleCreator('residential')")
+      i.fa.fa-home.fa-2x
+    .tile.commercial(ng-click="toggleCreator('commercial')")
+      i.fa.fa-building.fa-2x
+    .tile.industrial(ng-click="toggleCreator('industrial')")
+      i.fa.fa-industry.fa-2x
+    .tile.education(ng-click="toggleCreator('education')")
+      i.fa.fa-graduation-cap.fa-2x
+    .tile.public(ng-click="toggleCreator('public')")
+      i.fa.fa-institution.fa-2x
+  .creators
+    .residential(ng-submit="createResidentialTile()" ng-if="creating.residential")
+      h3 Residential
+        em ${{ cost | number }}
+      .unit-details
+        .single-house-top.fa.fa-home.fa-5x
+        .beds(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+          a.bed(
+            ng-if="display_mutator(floor_index, $index) == false"
+            ng-repeat="bed in floor track by $index"
+            class="{{ bed }}")
+            i.fa.fa-bed
+          a.bed.btn.btn-default(
+            ng-if="display_mutator(floor_index, $index) == true"
+            ng-repeat="bed in floor track by $index"
+            ng-click="toggle_bedroom(floor_index, $index)"
+            class="{{ bed }}")
+            i.fa.fa-bed
+            i.fa(
+              ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+              ng-if="display_mutator(floor_index, $index)")
+        .single-house-bottom.fa.fa-home.fa-5x
+    .commercial(ng-submit="createCommercialTile()" ng-if="creating.commercial")
+      h3 Business
+        em ${{ cost | number }}
+      .unit-details
+        .office-complex-top.fa.fa-building.fa-5x
+        .floor(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+          a.office(
+            ng-if="display_mutator(floor_index, $index) == false"
+            ng-repeat="desk in floor track by $index"
+            class="{{ desk }}")
+            i.fa
+          a.office.btn.btn-default(
+            ng-if="display_mutator(floor_index, $index) == true"
+            ng-repeat="desk in floor track by $index"
+            class="{{ desk }}"
+            ng-click="toggle_desk(floor_index, $index)")
+            i.fa(
+              ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+              ng-if="display_mutator(floor_index, $index)")
+        .office-complex-bottom.fa.fa-building.fa-5x
+    .industrial(ng-submit="createIndustrialTile()" ng-if="creating.industrial")
+      h3 Industrial
+        em ${{ cost | number }}
+      .unit-details
+        .manufacturing-plant-top.fa.fa-industry.fa-5x
+        .line(ng-repeat="floor in floors track by $index" ng-init="floor_index = $index")
+          a.worker(
+            ng-if="display_mutator(floor_index, $index) == false"
+            ng-repeat="desk in floor track by $index")
+            i.fa.fa-wrench
+          a.worker.btn.btn-default(
+            ng-if="display_mutator(floor_index, $index) == true"
+            ng-repeat="cog in floor track by $index"
+            class="{{ cog }}"
+            ng-click="toggle_cog(floor_index, $index)")
+            i.fa.fa-wrench
+            i.fa(
+              ng-class="{ 'fa-plus': display_plus(floor_index, $index), 'fa-minus': display_minus(floor_index, $index) }"
+              ng-if="display_mutator(floor_index, $index)")
+        .manufacturing-plant-bottom.fa.fa-industry.fa-5x
+    .education(ng-submit="createEducationTile()" ng-if="creating.education")
+      h3 Education
+        em ${{ cost | number }}
+      .unit-details
+        .level(
+          ng-repeat="floor in floors track by $index"
+          ng-init="floor_index = $index")
+          h5 {{ edu_level($index) }}
+            i.fa.fa-graduation-cap
+            | = 
+            i.fa.fa-user
+            | x {{ student_count($index) }}
+          a.student(
+            ng-if="display_edu_mutator(floor_index, $index) == false"
+            ng-repeat="desk in floor track by $index")
+            i.fa.fa-graduation-cap
+          a.student.btn.btn-default(
+            ng-if="display_edu_mutator(floor_index, $index) == true"
+            ng-repeat="desk in floor track by $index"
+            ng-click="toggle_edu_unit(floor_index, $index)")
+            i.fa.fa-graduation-cap
+            i.fa(ng-class="{ 'fa-plus': display_edu_plus(floor_index, $index), 'fa-minus': display_edu_minus(floor_index, $index) }")
+    .public(ng-submit="createPublicTile()" ng-if="creating.public")
+      h3 Public Servants
+        em ${{ cost | number }}
+      .unit-details
+        .level(
+          ng-repeat="floor in floors track by $index"
+          ng-init="floor_index = $index")
+          h5 {{ pub_level($index) }}
+          a.service(
+            ng-if="display_pub_mutator(floor_index, $index) == false"
+            ng-repeat="desk in floor track by $index")
+            i.fa(class="fa-{{ pub_icon(floor_index) }}")
+          a.service.btn.btn-default(
+            ng-if="display_pub_mutator(floor_index, $index) == true"
+            ng-repeat="desk in floor track by $index"
+            ng-click="toggle_pub_unit(floor_index, $index)")
+            i.fa(class="fa-{{ pub_icon(floor_index) }}")
+            i.fa(ng-class="{ 'fa-plus': display_pub_plus(floor_index, $index), 'fa-minus': display_pub_minus(floor_index, $index) }")
+.game-board
+  .grid
+    .line(ng-repeat="col in grid")
+      .tile(
+        ng-repeat="r in col"
+        ng-click="toggle($parent.$index, $index)"
+        class="{{ r.type }}")
+        .floor(ng-repeat="floor in r.floors track by $index")
+          .unit(ng-repeat="unit in floor track by $index" class="{{ unit }}")

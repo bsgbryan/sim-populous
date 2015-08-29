@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:300,200,100')
+@import url('https://fonts.googleapis.com/css?family=Lato:300,300italic')
 /**
  *  If you want to override some bootstrap variables, you have to change values here.
  *  The list of variables are listed here bower_components/bootstrap-stylus/bootstrap/variables.styl
@@ -22,11 +24,10 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   position absolute
   top 0
   bottom 0
-  left 25%
+  left 280px
+  box-shadow inset 2px 2px 5px rgba(black, 0.1)
   right 0
   overflow auto
-
-.game-board
   .line
   .tile
     height 64px
@@ -56,8 +57,8 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       border none
     &.residential
       padding-top 2px
-      box-shadow 2px 2px 4px rgba(#060, 0.25)
-      border 1px solid rgba(#090, 0.25)
+      box-shadow 2px 2px 4px rgba(#930, 0.25)
+      border 1px solid rgba(#930, 0.25)
       .floor
         height 12px
         .unit
@@ -131,13 +132,48 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
           &:first-child
             margin-left 0
 
+.stats
+.creators
+.unit-details
+  position absolute
+
+.stats
+  &.citizens
+  &.employed
+    top 45px
+  &.money
+    top 15px
+    left 20px
+  &.citizens
+    left 20px
+  &.employed
+    left 170px
+  em
+    font-family Lato
+
+.creators
+  top 130px
+
+.unit-details
+  top 40px
+  left 39px
+
 .menu
+  width 280px
+  position absolute
+  top 0
+  bottom 0
+  left 0
   .stats
     .fa
       margin-right 10px
   .tiles
-    margin-top 20px
+    position absolute
+    top 80px
+    left 6px
   .tile
+    padding-top 9px
+    text-align center
     border 1px solid white
     margin-bottom 3px
     width 50px
@@ -146,6 +182,41 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       color rgba(black, 0.5)
     .foreground
       color white
+  .residential .unit-details
+    width 196px
+  .commercial .unit-details
+    top 70px
+    left 55px
+  .industrial .unit-details
+    top 70px
+    left 34px
+  .education
+  .public
+    .unit-details
+      top 60px
+      left 18px
+      width 239px
+  .residential
+  .commercial
+  .industrial
+  .education
+  .public
+    .unit-details
+      margin 0 auto
+    h3
+      position absolute
+      left 12px
+      width 252px
+      font-family Raleway
+      em
+        text-align right
+        position absolute
+        right 0
+        font-size 0.65em
+        top 5px
+        font-family Lato
+    h5
+      font-family Raleway
 
 .industrial .line
   width 210px
@@ -213,13 +284,13 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   .student
   .service
     display inline-block
-    width 55px
+    width 47.75px
     text-align center
     border none
     color #333
-    padding 6px 12px
+    padding 6px 0
     .fa + .fa
-      margin-left 10px
+      margin-left 5px
 
 .single-house-top
 .single-house-bottom
@@ -292,11 +363,6 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       margin-top 3px
 
 .menu
-  .tile
-    padding-top 9px
-    text-align center
-
-.menu
 .grid
   .tile
     display inline-block
@@ -304,11 +370,11 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
     &:hover
       cursor pointer
     &.residential
-      background-color #3c3
+      background-color #ea3
     &.commercial
       background-color #66f
     &.industrial
-      background-color #cc3
+      background-color #e8e800
     &.education
       background-color #858
     &.public
