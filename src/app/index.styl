@@ -14,6 +14,10 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 // bower:styl
 // endbower
 
+industrial_color = #e8e800
+business_color   = #66f
+home_color       = #ea3
+
 .browsehappy
   margin 0.2em 0
   background #ccc
@@ -164,6 +168,7 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
   top 0
   bottom 0
   left 0
+  background-color rgba(#eee, 0.25)
   .stats
     .fa
       margin-right 10px
@@ -220,15 +225,14 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 
 .industrial .line
   width 210px
-  border-left 10px solid #333
-  border-right 10px solid #333
-  background-color #333
+  border-left 10px solid industrial_color
+  border-right 10px solid industrial_color
+  background-color industrial_color
   padding-top 7px
   .worker
     width 63px
     display inline-block
-    background-color: white
-    color #333
+    color darken(industrial_color, 65%)
     border-radius 0
     text-align center
     border-top none
@@ -236,6 +240,9 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
     padding 6px 12px
     vertical-align bottom
     border none
+    background-color rgba(white, 0.75)
+    box-shadow inset 0 1px 0 rgba(white, 0.75), inset 0 -1px 0 rgba(black, 0.125)
+    text-shadow 0 1px 0 rgba(white, 0.5)
     &:first-child
       border-top-left-radius 4px
       border-bottom-left-radius 4px
@@ -249,28 +256,29 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 
 .floor
   width 165px
-  border-left 10px solid #333
-  border-right 10px solid #333
-  background-color #333
-
+  border-left 10px solid business_color
+  border-right 10px solid business_color
+  background-color business_color
   .office
     display inline-block
-    border 6.5px solid #333
+    border 6.5px solid business_color
     border-radius 10px
-    background-color white
     vertical-align bottom
     width 36.25px
     height 40px
     padding-left 0
     padding-right 0
+    background-color rgba(white, 0.9)
+    box-shadow inset 0 1px 1px rgba(black, 0.25), inset 0 -1px 0 white
     &.executive
       width 145px
     &.manager
       width 72.5px
-
     i.fa
       vertical-align top
       padding-top 1px
+      color darken(business_color, 65%)
+      text-shadow 0 -1px 0 white, 0 1px 1px rgba(black, 0.125)
 
 .education
 .public
@@ -296,17 +304,33 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 .single-house-bottom
   width 201px
   height 120px
+  color home_color
 .office-complex-top
   height 30px
+  padding-top 1px
 .office-complex-bottom
   height 80px
 .office-complex-top
 .office-complex-bottom
   width 165px
+  color business_color
+.manufacturing-plant-top
+.manufacturing-plant-bottom
+  color industrial_color
 .manufacturing-plant-top
   height 140px
+  padding-top 1px
 .manufacturing-plant-bottom
   height 30px
+  padding-bottom 1px
+.single-house-top
+.office-complex-top
+.manufacturing-plant-top
+  text-shadow 0 -1px 0 rgba(black, 0.15)
+.single-house-bottom
+.office-complex-bottom
+.manufacturing-plant-bottom
+  text-shadow 0 1px 0 white
 .single-house-top
 .single-house-bottom
 .office-complex-top
@@ -328,23 +352,28 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
 .office-complex-bottom:before
 .manufacturing-plant-bottom:before
   display block
+
 .beds
   margin-left 30px
   width 135px
   box-sizing border-box
+  background-color home_color
   .bed
     display inline-block
     vertical-align bottom
-    border-left 5px solid #333
+    border-left 5px solid home_color
     border-radius 0
-    border-right 5px solid #333
-    border-top 2px solid #333
-    border-bottom 5px solid #333
+    border-right 5px solid home_color
+    border-top 2px solid home_color
+    border-bottom 5px solid home_color
     height 45px
     padding 0
     text-align left
     line-height 2.9em
-    color #333
+    color home_color
+    background-color rgba(white, 0.95)
+    box-shadow inset 0 1px 1px rgba(black, 0.125), inset 0 -1px 0 white
+    overflow hidden
     &.standard
       width 67.5px
     &.master
@@ -354,6 +383,7 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       margin-bottom -2px
       margin-left 1px
       font-size 1.7em
+      text-shadow 0 1px 1px rgba(black, 0.125), 0 -1px 0 white
     .fa.fa-minus
     .fa.fa-plus
       margin-left 9px
@@ -361,6 +391,8 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
       line-height 1em
       vertical-align top
       margin-top 3px
+      color darken(home_color, 50%)
+      text-shadow 0 1px 1px rgba(black, 0.125), 0 -1px 0 white
 
 .menu
 .grid
@@ -370,11 +402,11 @@ $icon-font-path = "../../bower_components/bootstrap-stylus/fonts/"
     &:hover
       cursor pointer
     &.residential
-      background-color #ea3
+      background-color home_color
     &.commercial
-      background-color #66f
+      background-color business_color
     &.industrial
-      background-color #e8e800
+      background-color industrial_color
     &.education
       background-color #858
     &.public
